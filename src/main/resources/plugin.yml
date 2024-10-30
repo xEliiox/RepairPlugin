@@ -1,0 +1,24 @@
+name: RepairPlugin
+version: '${project.version}'
+main: xeliox.repairplugin.RepairPlugin
+api-version: '1.13'
+author: xEliox
+description: A very simple to use plugin to repair items
+commands:
+  repairplugin:
+    description: Administrative command for RepairPlugin.
+    aliases: [er]
+  repair:
+    description: Repair the item in your hand or all items in your inventory.
+    aliases: [erepair]
+  giveexp:
+    description: Share your experience levels with another player.
+    aliases: [gxp]
+permissions:
+  repairplugin.admin:
+    description: Administrative permission to the /repairplugin command
+    default: op
+  repairplugin.repair:
+    description: Permission to use the /repair command
+  repairplugin.giveexp:
+    description: Permission to use the /giveexp command

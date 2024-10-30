@@ -1,0 +1,26 @@
+Settings:
+  disableAnvilInteraction: true
+  experience_cost: 10
+  experience_cost_all: 15
+Messages:
+  prefix: "&8[&dRepairPlugin&8] &r"
+  use_repair: "&eUse: /repair [all]"
+  use_giveexp: "&cUse: /giveexp <player> <amount>"
+  use_reload: "&eUse: /repairplugin reload"
+  not_enough_exp: "&cYou don't have enough experience levels!"
+  not_enough_exp_all: "&cYou don't have enough experience levels to repair all the items!"
+  reload_config: "&aConfiguration reloaded successfully!"
+  no_permission: "You do not have sufficient permissions to do that."
+  no_repair_permission: "&cYou need rank &8[&eVIP&8] &co higher to repair items."
+  no_giveexp_permission: "&cYou do not have permissions to give experience to another player."
+  item_repaired: "&aItem repaired successfully. &e{amount} &alevels of experience consumed."
+  items_repaired: "&aAll items have been repaired. &e{amount} &alevels of experience have been consumed."
+  no_item_hand: "&cYou do not have a damaged item in your hand."
+  no_items: "&cYou have no damaged items in your inventory."
+  error_console: "&cThis command can only be executed by players."
+  no_valid_exp: "&cInvalid quantity. Must be a number."
+  experience_given: "&aYou have transferred &a{amount} &a levels to &e{target}&a."
+  experience_received: "&aYou have received &a{amount} &a levels of &a{source}&a."
+  anvil_repair: "&aYour item has been automatically repaired."
+  player_not_found: "&cPlayer not found."
+  player_equals_target: "&cYou can't give yourself xp."
