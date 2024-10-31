@@ -27,8 +27,8 @@ public class RepairPlugin extends JavaPlugin {
         saveDefaultConfig();
         configManager = new ConfigManager(this);
 
-        console.sendMessage(ColorTranslator.translate(Messages.PREFIX.getMessage() + " &aHas been enabled! &fVersion: " + version));
-        console.sendMessage(ColorTranslator.translate(Messages.PREFIX.getMessage()+ " &fPlugin Creator &c" + author));
+        console.sendMessage(ColorTranslator.translate(Messages.PREFIX.getMessage() + "&aHas been enabled! &fVersion: " + version));
+        console.sendMessage(ColorTranslator.translate(Messages.PREFIX.getMessage() + "&fPlugin Creator &c" + author));
 
         MainCommand mainCommand = new MainCommand(this);
         CommandTabCompleter commandTabCompleter = new CommandTabCompleter();
@@ -54,8 +54,8 @@ public class RepairPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        console.sendMessage(ColorTranslator.translate(Messages.PREFIX.getMessage() + " &cHas been disabled! &fVersion: " + version));
-        console.sendMessage(ColorTranslator.translate(Messages.PREFIX.getMessage() + " &fPlugin Creator &c" + author));
+        console.sendMessage(ColorTranslator.translate(Messages.PREFIX.getMessage() + "&cHas been disabled! &fVersion: " + version));
+        console.sendMessage(ColorTranslator.translate(Messages.PREFIX.getMessage() + "&fPlugin Creator &c" + author));
     }
 
     public void setVersion(){
