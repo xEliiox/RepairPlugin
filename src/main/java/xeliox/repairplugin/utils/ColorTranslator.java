@@ -9,7 +9,7 @@ public class ColorTranslator {
     private static final Pattern HEX_PATTERN = Pattern.compile("#[a-fA-F0-9]{6}");
 
     public static String translate(String message) {
-        ChatColor.translateAlternateColorCodes('&', message);
+        message = ChatColor.translateAlternateColorCodes('&', message);
 
         if (ServerUtils.VersionIsNew()) {
             Matcher matcher = HEX_PATTERN.matcher(message);
