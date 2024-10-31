@@ -20,10 +20,9 @@ public class ColorTranslator {
             matcher.appendTail(buffer);
             message = buffer.toString();
 
-        } else if (ServerUtils.VersionIsLegacy()) {
+        } else {
             message = ChatColor.translateAlternateColorCodes('&', message);
         }
-
         return message;
     }
 }
