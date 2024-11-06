@@ -70,10 +70,17 @@ public class RepairPlugin extends JavaPlugin {
             case "1.21.1":
                 versionUtils = VersionUtils.v1_21_R1;
                 break;
+            case "1.21.2":
+                versionUtils = VersionUtils.v1_21_R2;
+                break;
+            case "1.21.3":
+                versionUtils = VersionUtils.v1_21_R3;
+                break;
             default:
                 versionUtils = VersionUtils.valueOf(packageName.replace("org.bukkit.craftbukkit.", ""));
         }
     }
+
 
     public ConfigManager getConfigManager() {
         return configManager;
