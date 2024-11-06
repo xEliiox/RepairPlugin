@@ -6,21 +6,21 @@ import java.util.regex.Pattern;
 
 public class ColorTranslator {
 
-    private static final Pattern HEX_PATTERN = Pattern.compile("#[a-fA-F0-9]{6}");
+    private static final Pattern HEX_PATTERN = Pattern.compile("#([a-fA-F0-9]{6})|&?#([A-Fa-f0-9]{6})");
 
     public static String translate(String message) {
         message = ChatColor.translateAlternateColorCodes('&', message);
 
         if (ServerUtils.VersionIsNew()) {
             Matcher matcher = HEX_PATTERN.matcher(message);
-            StringBuffer buffer = new StringBuffer();
+            StringBuilder stringBuilder = new StringBuilder();
 
             while (matcher.find()) {
                 String hexColor = matcher.group();
-                matcher.appendReplacement(buffer, net.md_5.bungee.api.ChatColor.of(hexColor).toString());
+                matcher.appendReplacement(stringBuilder, net.md_5.bungee.api.ChatColor.of(hexColor).toString());
             }
-            matcher.appendTail(buffer);
-            message = buffer.toString();
+            matcher.appendTail(stringBuilder);
+            message = stringBuilder.toString();
 
         }
         return message;
