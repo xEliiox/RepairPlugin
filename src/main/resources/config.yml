@@ -4,13 +4,13 @@ Settings:
   experience_cost_all: 15
 Messages:
   prefix: "&8[&dRepairPlugin&8] &r"
-  use_repair: "&eUse: /repair [all]"
+  use_repair: "&cUse: /repair [all]"
   use_giveexp: "&cUse: /giveexp <player> <amount>"
-  use_reload: "&eUse: /repairplugin reload"
+  use_reload: "&cUse: /repairplugin reload"
   not_enough_exp: "&cYou don't have enough experience levels!"
   not_enough_exp_all: "&cYou don't have enough experience levels to repair all the items!"
   reload_config: "&aConfiguration reloaded successfully!"
-  no_permission: "You do not have sufficient permissions to do that."
+  no_permission: "&cYou do not have sufficient permissions to do that."
   no_repair_permission: "&cYou need rank &8[&eVIP&8] &co higher to repair items."
   no_giveexp_permission: "&cYou do not have permissions to give experience to another player."
   item_repaired: "&aItem repaired successfully. &e{amount} &alevels of experience consumed."
