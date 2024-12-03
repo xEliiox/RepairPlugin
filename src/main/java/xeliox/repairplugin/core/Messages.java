@@ -28,8 +28,8 @@ public enum Messages {
     PLAYER_EQUALS_TARGET("Messages.player_equals_target", "&cYou can't give yourself xp.");
 
 
-    private final String path;
-    private final String defaultMessage;
+    public final String path;
+    public final String defaultMessage;
     private String message;
 
     Messages(String path, String defaultMessage) {
