@@ -50,6 +50,7 @@ public class RepairPlugin extends JavaPlugin {
         }
 
         getServer().getPluginManager().registerEvents(new RepairPluginListener(configManager), this);
+        AutoUpdater.checkForUpdates(this);
     }
 
     @Override
@@ -71,10 +72,8 @@ public class RepairPlugin extends JavaPlugin {
                 versionUtils = VersionUtils.v1_21_R1;
                 break;
             case "1.21.2":
-                versionUtils = VersionUtils.v1_21_R2;
-                break;
             case "1.21.3":
-                versionUtils = VersionUtils.v1_21_R3;
+                versionUtils = VersionUtils.v1_21_R2;
                 break;
             default:
                 versionUtils = VersionUtils.valueOf(packageName.replace("org.bukkit.craftbukkit.", ""));
