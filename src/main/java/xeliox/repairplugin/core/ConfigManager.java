@@ -21,8 +21,18 @@ public class ConfigManager {
         experienceCost = config.getInt("Settings.experience_cost", 10);
         experienceCostAll = config.getInt("Settings.experience_cost_all", 15);
 
+        boolean saveRequired = false;
+
         for (Messages message : Messages.values()) {
+            if (!config.contains(message.path)) {
+                config.set(message.path, message.defaultMessage);
+                saveRequired = true;
+            }
             message.loadMessage(config);
+        }
+
+        if (saveRequired) {
+            plugin.saveConfig();
         }
     }
 
