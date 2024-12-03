@@ -53,6 +53,8 @@ public class CommandTabCompleter implements TabCompleter {
                 completions.add("all");
             }
         }
+        completions.sort(String::compareTo);
+        
         return completions;
     }
 }
