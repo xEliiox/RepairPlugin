@@ -1,28 +1,11 @@
 package xeliox.repairplugin.utils;
 
-import org.bukkit.ChatColor;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.iridium.iridiumcolorapi.IridiumColorAPI;
+import org.jetbrains.annotations.NotNull;
 
 public class ColorTranslator {
 
-    private static final Pattern HEX_PATTERN = Pattern.compile("#([a-fA-F0-9]{6})|&?#([A-Fa-f0-9]{6})");
-
-    public static String translate(String message) {
-        message = ChatColor.translateAlternateColorCodes('&', message);
-
-        if (ServerUtils.VersionIsNew()) {
-            Matcher matcher = HEX_PATTERN.matcher(message);
-            StringBuilder stringBuilder = new StringBuilder();
-
-            while (matcher.find()) {
-                String hexColor = matcher.group();
-                matcher.appendReplacement(stringBuilder, net.md_5.bungee.api.ChatColor.of(hexColor).toString());
-            }
-            matcher.appendTail(stringBuilder);
-            message = stringBuilder.toString();
-
-        }
-        return message;
+    public static @NotNull String translate(String message) {
+        return IridiumColorAPI.process(message);
     }
 }
