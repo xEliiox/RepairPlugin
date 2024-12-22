@@ -1,7 +1,7 @@
 package xeliox.repairplugin.core;
 
-import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
+import org.simpleyaml.configuration.file.YamlFile;
 import xeliox.repairplugin.utils.ColorTranslator;
 
 public enum Messages {
@@ -37,7 +37,7 @@ public enum Messages {
         this.defaultMessage = defaultMessage;
     }
 
-    public void loadMessage(@NotNull FileConfiguration config) {
+    public void loadMessage(@NotNull YamlFile config) {
         this.message = ColorTranslator.translate(config.getString(this.path, this.defaultMessage));
     }
 
