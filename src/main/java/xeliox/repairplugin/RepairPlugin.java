@@ -5,9 +5,11 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.simpleyaml.configuration.file.YamlFile;
 import xeliox.repairplugin.core.ConfigManager;
 import xeliox.repairplugin.core.Messages;
 import xeliox.repairplugin.listener.RepairPluginListener;
+import xeliox.repairplugin.utils.AutoUpdater;
 import xeliox.repairplugin.utils.ColorTranslator;
 import xeliox.repairplugin.utils.CommandTabCompleter;
 import xeliox.repairplugin.utils.VersionUtils;
@@ -25,7 +27,7 @@ public class RepairPlugin extends JavaPlugin {
     public void onEnable() {
         setVersion();
         saveDefaultConfig();
-        configManager = new ConfigManager(this);
+        configManager = new ConfigManager(this, new YamlFile());
 
         console.sendMessage(ColorTranslator.translate(Messages.PREFIX.getMessage() + "&aHas been enabled! &fVersion: " + version));
         console.sendMessage(ColorTranslator.translate(Messages.PREFIX.getMessage() + "&fPlugin Creator &c" + author));
@@ -75,11 +77,13 @@ public class RepairPlugin extends JavaPlugin {
             case "1.21.3":
                 versionUtils = VersionUtils.v1_21_R2;
                 break;
+            case "1.21.4":
+                versionUtils = VersionUtils.v1_21_R3;
+                break;
             default:
                 versionUtils = VersionUtils.valueOf(packageName.replace("org.bukkit.craftbukkit.", ""));
         }
     }
-
 
     public ConfigManager getConfigManager() {
         return configManager;
