@@ -1,25 +1,26 @@
 package xeliox.repairplugin.core;
 
-import org.bukkit.configuration.file.FileConfiguration;
+import org.simpleyaml.configuration.file.YamlFile;
 import xeliox.repairplugin.RepairPlugin;
 
 public class ConfigManager {
     private final RepairPlugin plugin;
+    private final YamlFile config;
     private boolean anvilInteraction;
     private int experienceCost;
     private int experienceCostAll;
 
-    public ConfigManager(RepairPlugin plugin) {
+    public ConfigManager(RepairPlugin plugin, YamlFile config) {
         this.plugin = plugin;
+        this.config = config;
         loadConfiguration();
     }
 
     public void loadConfiguration() {
-        FileConfiguration config = plugin.getConfig();
 
-        anvilInteraction = config.getBoolean("Settings.disableAnvilInteraction", false);
-        experienceCost = config.getInt("Settings.experience_cost", 10);
-        experienceCostAll = config.getInt("Settings.experience_cost_all", 15);
+        anvilInteraction = getOrSetDefault(config,"Settings.disableAnvilInteraction", false);
+        experienceCost = getOrSetDefault(config,"Settings.experience_cost", 10);
+        experienceCostAll = getOrSetDefault(config,"Settings.experience_cost_all", 15);
 
         boolean saveRequired = false;
 
@@ -34,6 +35,15 @@ public class ConfigManager {
         if (saveRequired) {
             plugin.saveConfig();
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> T getOrSetDefault(YamlFile config, String path, T defaultValue) {
+        if (!config.contains(path)) {
+            config.set(path, defaultValue);
+            return defaultValue;
+        }
+        return (T) config.get(path);
     }
 
     public boolean isDisableAnvilInteraction() {
