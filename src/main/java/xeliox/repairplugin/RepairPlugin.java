@@ -14,6 +14,8 @@ import xeliox.repairplugin.utils.ColorTranslator;
 import xeliox.repairplugin.utils.CommandTabCompleter;
 import xeliox.repairplugin.utils.VersionUtils;
 
+import java.util.logging.Logger;
+
 public class RepairPlugin extends JavaPlugin {
 
     private ConfigManager configManager;
@@ -26,8 +28,8 @@ public class RepairPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         setVersion();
-        saveDefaultConfig();
-        configManager = new ConfigManager(this, new YamlFile());
+        Logger logger = getLogger();
+        configManager = new ConfigManager(this,logger,new YamlFile());
 
         console.sendMessage(ColorTranslator.translate(Messages.PREFIX.getMessage() + "&aHas been enabled! &fVersion: " + version));
         console.sendMessage(ColorTranslator.translate(Messages.PREFIX.getMessage() + "&fPlugin Creator &c" + author));
