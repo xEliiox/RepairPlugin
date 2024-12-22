@@ -3,6 +3,13 @@ package xeliox.repairplugin.core;
 import org.simpleyaml.configuration.file.YamlFile;
 import xeliox.repairplugin.RepairPlugin;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.util.logging.Logger;
+
 public class ConfigManager {
     private final RepairPlugin plugin;
     private final YamlFile config;
@@ -10,9 +17,30 @@ public class ConfigManager {
     private int experienceCost;
     private int experienceCostAll;
 
-    public ConfigManager(RepairPlugin plugin, YamlFile config) {
+    public ConfigManager(RepairPlugin plugin, Logger logger, YamlFile config) {
         this.plugin = plugin;
         this.config = config;
+        File configFile = new File(plugin.getDataFolder(), "config.yml");
+
+        if (!configFile.exists()) {
+            try {
+                logger.warning("The configuration file does not exist!");
+                logger.info("Creating a new configuration file...");
+
+                InputStream defaultConfigStream = plugin.getResource("config.yml");
+                if (defaultConfigStream != null) {
+                    Files.copy(defaultConfigStream, configFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    logger.info("Default configuration file copied successfully.");
+                } else {
+                    logger.info("Default configuration file not found in the JAR!");
+                }
+
+            } catch (IOException e) {
+                logger.severe("Failed to create config.yml file: " + e.getMessage());
+            }
+        }
+
+
         loadConfiguration();
     }
 
