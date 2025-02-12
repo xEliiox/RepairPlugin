@@ -56,20 +56,28 @@ public class MainCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
+        if (args.length > 0 && args[0].equalsIgnoreCase("all")) {
+            if (!player.hasPermission("repairplugin.repair.all")) {
+                player.sendMessage(Messages.PREFIX.getMessage() + Messages.NO_PERMISSION_REPAIR_ALL.getMessage());
+                return false;
+            }
+            repairAllItems(player);
+            return true;
+        }
+
+
         if (!player.hasPermission("repairplugin.repair")) {
             player.sendMessage(Messages.PREFIX.getMessage() + Messages.NO_PERMISSION_REPAIR.getMessage());
             return false;
         }
 
-        if (args.length > 0 && args[0].equalsIgnoreCase("all")) {
-            repairAllItems(player);
-        } else if (args.length == 0) {
+        if (args.length == 0) {
             repairSingleItem(player);
+            return true;
         } else {
             player.sendMessage(Messages.PREFIX.getMessage() + Messages.USE_REPAIR.getMessage());
             return false;
         }
-        return true;
     }
 
     private boolean handleGiveExpCommand(CommandSender sender, String[] args) {
