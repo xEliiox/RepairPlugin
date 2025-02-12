@@ -18,7 +18,12 @@ permissions:
   repairplugin.admin:
     description: Administrative permission to the /repairplugin command
     default: op
+
   repairplugin.repair:
     description: Permission to use the /repair command
+
+  repairplugin.repair.all:
+    description: Permission to use the /repair all command
+
   repairplugin.giveexp:
     description: Permission to use the /giveexp command
