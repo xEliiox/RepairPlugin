@@ -5,7 +5,6 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.simpleyaml.configuration.file.YamlFile;
 import xeliox.repairplugin.core.ConfigManager;
 import xeliox.repairplugin.core.Messages;
 import xeliox.repairplugin.listener.RepairPluginListener;
@@ -14,6 +13,7 @@ import xeliox.repairplugin.utils.ColorTranslator;
 import xeliox.repairplugin.utils.CommandTabCompleter;
 import xeliox.repairplugin.utils.VersionUtils;
 
+import java.io.IOException;
 import java.util.logging.Logger;
 
 public class RepairPlugin extends JavaPlugin {
@@ -29,10 +29,15 @@ public class RepairPlugin extends JavaPlugin {
     public void onEnable() {
         setVersion();
         Logger logger = getLogger();
-        configManager = new ConfigManager(this,logger,new YamlFile());
+        try {
+            configManager = new ConfigManager(this,logger);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         console.sendMessage(ColorTranslator.translate(Messages.PREFIX.getMessage() + "&aHas been enabled! &fVersion: " + version));
         console.sendMessage(ColorTranslator.translate(Messages.PREFIX.getMessage() + "&fPlugin Creator &c" + author));
+        console.sendMessage(ColorTranslator.translate(Messages.PREFIX.getMessage() + "&fDiscord Contact: &e.zlex_"));
 
         MainCommand mainCommand = new MainCommand(this);
         CommandTabCompleter commandTabCompleter = new CommandTabCompleter();
@@ -61,12 +66,13 @@ public class RepairPlugin extends JavaPlugin {
     public void onDisable() {
         console.sendMessage(ColorTranslator.translate(Messages.PREFIX.getMessage() + "&cHas been disabled! &fVersion: " + version));
         console.sendMessage(ColorTranslator.translate(Messages.PREFIX.getMessage() + "&fPlugin Creator &c" + author));
+        console.sendMessage(ColorTranslator.translate(Messages.PREFIX.getMessage() + "&fDiscord Contact: &e.zlex_"));
     }
 
     public void setVersion(){
         String packageName = Bukkit.getServer().getClass().getPackage().getName();
         String bukkitVersion = Bukkit.getServer().getBukkitVersion().split("-")[0];
-        switch(bukkitVersion){
+        switch(bukkitVersion) {
             case "1.20.5":
             case "1.20.6":
                 versionUtils = VersionUtils.v1_20_R4;
@@ -82,8 +88,16 @@ public class RepairPlugin extends JavaPlugin {
             case "1.21.4":
                 versionUtils = VersionUtils.v1_21_R3;
                 break;
+            case "1.21.5":
+                versionUtils = VersionUtils.v1_21_R4;
+                break;
             default:
-                versionUtils = VersionUtils.valueOf(packageName.replace("org.bukkit.craftbukkit.", ""));
+                try {
+                    versionUtils = VersionUtils.valueOf(packageName.replace("org.bukkit.craftbukkit.", ""));
+                } catch (IllegalArgumentException e) {
+                    Bukkit.getLogger().warning("Unrecognized version: " + bukkitVersion);
+                    versionUtils = null;
+                }
         }
     }
 
