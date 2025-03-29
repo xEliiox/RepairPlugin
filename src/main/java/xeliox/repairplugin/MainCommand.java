@@ -11,6 +11,8 @@ import org.jetbrains.annotations.NotNull;
 import xeliox.repairplugin.core.ConfigManager;
 import xeliox.repairplugin.core.Messages;
 
+import java.io.IOException;
+
 public class MainCommand implements CommandExecutor {
 
     private final RepairPlugin plugin;
@@ -24,7 +26,11 @@ public class MainCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (command.getName().equalsIgnoreCase("repairplugin")) {
-            return handleRepairPluginCommand(sender, args);
+            try {
+                return handleRepairPluginCommand(sender, args);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         } else if (command.getName().equalsIgnoreCase("repair")) {
             return handleRepairCommand(sender, args);
         } else if (command.getName().equalsIgnoreCase("giveexp")) {
@@ -33,7 +39,7 @@ public class MainCommand implements CommandExecutor {
         return false;
     }
 
-    private boolean handleRepairPluginCommand(CommandSender sender, String @NotNull [] args) {
+    private boolean handleRepairPluginCommand(CommandSender sender, String @NotNull [] args) throws IOException {
         if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
             if (!sender.hasPermission("repairplugin.admin")) {
                 sender.sendMessage(Messages.PREFIX.getMessage() + Messages.NO_PERMISSION.getMessage());
