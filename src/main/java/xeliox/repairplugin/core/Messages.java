@@ -14,6 +14,7 @@ public enum Messages {
     RELOAD_CONFIG("Messages.reload_config", "&aConfiguration reloaded successfully!"),
     NO_PERMISSION("Messages.no_permission", "&cYou do not have sufficient permissions to do that."),
     NO_PERMISSION_REPAIR("Messages.no_repair_permission", "&cYou need rank &8[&eVIP&8] &co higher to repair items."),
+    NO_PERMISSION_REPAIR_ALL("Messages.no_repair_all_permission", "You need rank &8[&eVIP&8] &co higher to repair all items."),
     NO_PERMISSION_GIVEEXP("Messages.no_giveexp_permission", "&cYou do not have permissions to give experience to another player."),
     ITEM_REPAIRED("Messages.item_repaired", "&aItem repaired successfully. &e{amount} &alevels of experience consumed."),
     ITEMS_REPAIRED("Messages.items_repaired", "&aAll items have been repaired. &e{amount} &alevels of experience have been consumed."),
