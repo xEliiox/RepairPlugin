@@ -3,6 +3,7 @@ package xeliox.repairplugin.utils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 import xeliox.repairplugin.core.Messages;
 
 import java.io.BufferedReader;
@@ -26,17 +27,15 @@ public class AutoUpdater {
 
                     if (latestVersion != null) {
                         String currentVersion = plugin.getDescription().getVersion();
-                        // Convert the version strings to integers for comparison (e.g., "1.0.5" -> 105)
-                        int currentVersionInt = convertVersionToInt(currentVersion);
-                        int latestVersionInt = convertVersionToInt(latestVersion);
+                        int comparison = compareVersions(currentVersion, latestVersion);
 
-                        if (currentVersionInt < latestVersionInt) {
+                        if (comparison < 0) {
                             // Installed version is outdated
                             Bukkit.getConsoleSender().sendMessage(Messages.PREFIX.getMessage() +
                                     ColorTranslator.translate("&cYour plugin is outdated! New version available: v" + latestVersion));
                             Bukkit.getConsoleSender().sendMessage(Messages.PREFIX.getMessage() +
                                     ColorTranslator.translate("&fYou are currently using version: v" + currentVersion));
-                        } else if (currentVersionInt > latestVersionInt) {
+                        } else if (comparison > 0) {
                             // Installed version is newer (experimental/tested version)
                             Bukkit.getConsoleSender().sendMessage(Messages.PREFIX.getMessage() +
                                     ColorTranslator.translate("&eYou are using a test version v" + currentVersion));
@@ -54,12 +53,19 @@ public class AutoUpdater {
         }.runTaskAsynchronously(plugin);
     }
 
-    private static int convertVersionToInt(String version) {
-        version = version.replaceAll("[^0-9.]", "");
-        String[] parts = version.split("\\.");
-        int major = (parts.length > 0) ? Integer.parseInt(parts[0]) * 10000 : 0;
-        int minor = (parts.length > 1) ? Integer.parseInt(parts[1]) * 100 : 0;
-        int patch = (parts.length > 2) ? Integer.parseInt(parts[2]) : 0;
-        return major + minor + patch;
+    private static int compareVersions(@NotNull String version1, @NotNull String version2) {
+        String[] v1Parts = version1.replaceAll("[^0-9.]", "").split("\\.");
+        String[] v2Parts = version2.replaceAll("[^0-9.]", "").split("\\.");
+
+        int maxLength = Math.max(v1Parts.length, v2Parts.length);
+        for (int i = 0; i < maxLength; i++) {
+            int num1 = (i < v1Parts.length) ? Integer.parseInt(v1Parts[i]) : 0;
+            int num2 = (i < v2Parts.length) ? Integer.parseInt(v2Parts[i]) : 0;
+
+            if (num1 != num2) {
+                return Integer.compare(num1, num2);
+            }
+        }
+        return 0;
     }
 }
