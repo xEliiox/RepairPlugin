@@ -28,33 +28,20 @@ public class CommandTabCompleter implements TabCompleter {
                     completions.add(player.getName());
                 }
             } else if (args.length == 2) {
-                completions.add("1");
-                completions.add("2");
-                completions.add("3");
-                completions.add("4");
-                completions.add("5");
-                completions.add("6");
-                completions.add("7");
-                completions.add("8");
-                completions.add("9");
-                completions.add("10");
-                completions.add("20");
-                completions.add("30");
-                completions.add("40");
-                completions.add("50");
-                completions.add("60");
-                completions.add("70");
-                completions.add("80");
-                completions.add("90");
-                completions.add("100");
+                List<Integer> levels = new ArrayList<>();
+                for (int i = 1; i <= 10; i++) levels.add(i);
+                for (int i = 20; i <= 100; i += 10) levels.add(i);
+
+                levels.sort(Integer::compareTo);
+                for (Integer level : levels) {
+                    completions.add(String.valueOf(level));
+                }
             }
         } else if (command.getName().equalsIgnoreCase("repair")) {
             if (args.length == 1) {
                 completions.add("all");
             }
         }
-        completions.sort(String::compareTo);
-        
         return completions;
     }
 }
