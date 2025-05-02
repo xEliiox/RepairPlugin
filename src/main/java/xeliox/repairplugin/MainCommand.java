@@ -5,11 +5,12 @@ import org.bukkit.Material;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import xeliox.repairplugin.core.ConfigManager;
 import xeliox.repairplugin.core.Messages;
+import xeliox.repairplugin.utils.ColorTranslator;
+import xeliox.repairplugin.utils.VersionCheck;
 
 import java.io.IOException;
 
@@ -45,10 +46,13 @@ public class MainCommand implements CommandExecutor {
                 sender.sendMessage(Messages.PREFIX.getMessage() + Messages.NO_PERMISSION.getMessage());
                 return false;
             }
-
-            plugin.reloadConfig();
-            configManager.loadConfiguration();
-            sender.sendMessage(Messages.PREFIX.getMessage() + Messages.RELOAD_CONFIG.getMessage());
+            try {
+                configManager.reloadConfig();
+                sender.sendMessage(Messages.PREFIX.getMessage() + Messages.RELOAD_CONFIG.getMessage());
+            } catch (IOException e) {
+                plugin.getLogger().severe("Error al recargar config.yml: " + e.getMessage());
+                sender.sendMessage(Messages.PREFIX.getMessage() + ColorTranslator.translate("&4An error occurred while reloading the configuration."));
+            }
         } else {
             sender.sendMessage(Messages.PREFIX.getMessage() + Messages.USE_RELOAD.getMessage());
         }
@@ -145,8 +149,14 @@ public class MainCommand implements CommandExecutor {
         return true;
     }
 
+    @SuppressWarnings("deprecation")
     private void repairSingleItem(@NotNull Player player) {
-        ItemStack itemInHand = player.getInventory().getItemInMainHand();
+        ItemStack itemInHand;
+        if (VersionCheck.serverIsNew()) {
+            itemInHand = player.getInventory().getItemInMainHand();
+        }else {
+            itemInHand = player.getInventory().getItemInHand();
+        }
         if (itemInHand.getType() != Material.AIR && isDamaged(itemInHand)) {
             if (player.getLevel() >= configManager.getExperienceCost()) {
                 repairItem(itemInHand);
@@ -190,18 +200,29 @@ public class MainCommand implements CommandExecutor {
         }
     }
 
+    @SuppressWarnings("deprecation")
     private boolean isDamaged(@NotNull ItemStack item) {
-        if (item.getItemMeta() instanceof Damageable) {
-            Damageable damageable = (Damageable) item.getItemMeta();
+        if (VersionCheck.serverIsLegacy()) {
+            return item.getDurability() > 0;
+        }
+
+        if (item.getItemMeta() instanceof org.bukkit.inventory.meta.Damageable) {
+            org.bukkit.inventory.meta.Damageable damageable = (org.bukkit.inventory.meta.Damageable) item.getItemMeta();
             return damageable != null && damageable.hasDamage();
         }
         return false;
     }
 
+    @SuppressWarnings("deprecation")
     private void repairItem(@NotNull ItemStack item) {
+        if (VersionCheck.serverIsLegacy()) {
+            item.setDurability((short) 0);
+            return;
+        }
+
         ItemMeta meta = item.getItemMeta();
-        if (meta instanceof Damageable) {
-            ((Damageable) meta).setDamage(0);
+        if (meta instanceof org.bukkit.inventory.meta.Damageable) {
+            ((org.bukkit.inventory.meta.Damageable) meta).setDamage(0);
             item.setItemMeta(meta);
         }
     }
